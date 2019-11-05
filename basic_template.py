@@ -17,9 +17,10 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("My First Game")
 
 # Cria um retângulo
-rect = pygame.Rect((300, 200), (100, 100))
 
 # Variavel para controlar o loop principal
+# quando for 'true', sai do loop, executando os
+# códigos de encerramento
 done = False
 
 # Utilizado para controlar a taxa de atualização da tela
@@ -32,12 +33,18 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-
     # "Limpa" a tela
     screen.fill(WHITE)
 
-    # Códigos de "desenho"
-    pygame.draw.rect(screen, RED, rect)
+    # Lógica do jogo deve vir aqui:
+    # ---
+
+    # ---
+
+    # Códigos de "desenho" devem vir aqui:
+    # ---
+
+    # ---
 
     # Atualiza a tela com as informações que foram adicionadas até então
     pygame.display.update()
