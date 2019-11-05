@@ -17,7 +17,7 @@ screen_size = (700, 500)
 screen = pygame.display.set_mode(screen_size)
 
 # Adiciona titulo à janela criada
-pygame.display.set_caption("My First Game")
+pygame.display.set_caption("Simple Pong")
 
 # Cria o player
 player_x = 310
@@ -25,14 +25,22 @@ player_y = 490     # (posição X, posição Y), (largura, altura)
 player = pygame.Rect((player_x, player_y), (80, 5))
 
 # Cria a "bola"
-ball_move_x = 4
-ball_move_y = 4
+ball_move_x = 3
+ball_move_y = 3
 ball = pygame.Rect((347, 247), (6, 6))
+
+# Variável para controlar a pontuação
+score = 0
 
 # Função para desenhar o retangulos
 def draw_rect(screen, rect, color=WHITE):
     pygame.draw.rect(screen,  color, rect)
-    pygame.display.update()
+
+# Função para renderizar textos
+def render_text(screen, text_str):
+    font = pygame.font.SysFont("Consolas", 20)
+    text = font.render("Pontuação: " + str(text_str), True, WHITE)
+    screen.blit(text, (5, 5))
 
 # Variavel para controlar o loop principal
 # quando for 'true', sai do loop, executando os
@@ -72,7 +80,23 @@ while not done:
     if ball.y <= 0:
         ball_move_y = ball_move_y * -1
 
-    # Verifica se a bola
+    # Se a bola cruzar a parede inferior, a pontuação é zerada
+    # e a velocidade e posição da bola é restaurada
+    if ball.y >= screen_size[1]:
+        ball_move_y = 3
+        ball_move_x = 3
+        ball = pygame.Rect((347, 247), (6, 6))
+        score = 0
+
+    # Verifica se a bola tocou o player
+    # cada vez que a bola tocar o player
+    # um ponto é feito e a velocidade da bola é
+    # levemente aumentada
+    if player.colliderect(ball):
+        ball_move_y = ball_move_y * -1
+        score = score + 1
+        ball_move_y = ball_move_y + 0.3 * (ball_move_y / abs(ball_move_y))
+        ball_move_x = ball_move_x + 0.3 * (ball_move_x / abs(ball_move_x))
 
     # Atualiza a posição da bola
     ball.move_ip(ball_move_x, ball_move_y)
@@ -82,7 +106,11 @@ while not done:
     # Desenha a bola com a nova posição
     draw_rect(screen, ball, RED)
 
-    # Atualiza a tela com as informações que foram adicionadas até então
+    # Desenha na tela o texto com a pontuação
+    render_text(screen, score)
+
+    # Atualiza a tela com as informações que foram
+    # adicionadas até então
     pygame.display.update()
 
     # 60 frames por segundo
