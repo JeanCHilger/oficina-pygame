@@ -1,3 +1,6 @@
+# Files that should not be visible
+codeready/pong.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
